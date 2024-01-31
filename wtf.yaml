@@ -1,0 +1,50 @@
+alias: 15 mins post Sundown - Livingroom Lights on
+description: ""
+trigger:
+  - platform: sun
+    event: sunset
+    offset: "15"
+condition:
+  - condition: or
+    conditions:
+      - condition: device
+        type: is_off
+        device_id: 2203eef2b41b40ec2d0783a3f5a462cc
+        entity_id: 34968e771053b2094ef9cd06bb2bfde7
+        domain: light
+      - condition: device
+        type: is_off
+        device_id: 5935311b24fad066f5534521886923c3
+        entity_id: f017eb8112c15310719480182efc58f0
+        domain: light
+      - condition: device
+        type: is_off
+        device_id: f060e71f1470cfba653c520491d95a6b
+        entity_id: 57750bab1da77f0f3eff39b4a1fa95e7
+        domain: light
+    enabled: false
+  - condition: state
+    entity_id: light.livingroom_couch
+    state: "off"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    enabled: false
+  - condition: not
+    conditions:
+      - condition: state
+        entity_id: light.livingroom_couch
+        state: "on"
+    enabled: false
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: light.livingroom_couch
+        state: "on"
+action:
+  - service: scene.turn_on
+    target:
+      entity_id: scene.livingroom_off
+    metadata: {}
+mode: single
